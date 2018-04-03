@@ -1,0 +1,159 @@
+Design a class MyText which will contain a String data text. Write a suitable constructor to input a string in text.  Write the following methods in the class: 
+ i) Count the number of words present in the text. ii) Find the frequency of each word in the text. 
+ Design another class ProcessText which contains two MyText type objects as its data members. Add the following member methods: 
+ i) common_words()  : This method will find the and list all the words that are common on both the objects. 
+ ii) unique_words() : This method will separately list the unique words present in both the text.  
+
+
+Code:
+import java.util.StringTokenizer;  
+class MyText
+{
+String s1,t1,temp,con;
+int counter=0,count=0;
+
+MyText(String s1)
+{
+this.s1=s1;
+}
+
+
+
+public int number_of_words()
+{
+t1=s1.trim();//triming front and back space
+for(int i=0;i<t1.length();i++)
+{
+if(t1.charAt(i)==' '&& t1.charAt(i+1)!=' ')
+{
+counter++;
+}
+}
+return(counter+1);
+}
+public void frequency_of_words()
+{ 	 
+StringTokenizer st = new StringTokenizer(t1," ");
+int totalwords=st.countTokens();  
+String[] text=new String[totalwords];
+String[] duplicate=new String[10];
+     for(int i=0;i<totalwords;i++){  
+         text[i]=st.nextToken();
+	 }
+    int counter=0;
+
+    //for-loop tocompare first character with the whole character array
+
+    for(int i=0;i<totalwords;i++)
+    {
+        int count=0;
+ for(int j=0;j<totalwords;j++)
+        {
+             if(text[i].equals(duplicate[j]))
+                counter++;
+        }
+		if(counter==0)
+		{
+        for(int j=0;j<totalwords;j++)
+        {
+             if(text[i].equals(text[j]))
+                count++; //count frequency
+        }
+		System.out.println("Frequency of "   +text[i]+ " in the given string is " +count);
+		}
+		else counter=0;
+		duplicate[i]=text[i];
+		 
+        }
+    
+
+    
+}
+}
+
+class ProcessText
+{
+	MyText obj1,obj2;
+	ProcessText(MyText obj1, MyText obj2)
+	{
+		this.obj1=obj1;
+		this.obj2=obj2;
+	}
+
+	
+public  void  find_number_of_unique_word(MyText obj)
+{
+	String text=obj.s1;
+int count=0;
+int frequency=0;
+StringTokenizer str = new StringTokenizer(text," "); 
+   while (str.hasMoreTokens()) 
+  {
+	String s=(str.nextToken()).toString();
+	StringTokenizer st = new StringTokenizer(text," "); 
+		while (st.hasMoreTokens()) 
+		{ 
+	
+		String s2=(st.nextToken()).toString();	
+			if(s2.equals(s))
+			{
+			frequency++;
+			}
+		}
+		if (frequency<2)
+		{
+		count++;
+		}
+  frequency=0;
+  }
+System.out.println("Number of unique word is "+count);
+}
+public void common_words()
+{
+	int count=0;
+String text1=obj1.s1;
+String text2=obj2.s1;
+StringTokenizer str = new StringTokenizer(text1," "); 
+   while (str.hasMoreTokens()) 
+  {
+	  count=0;
+	String s=(str.nextToken()).toString();
+	StringTokenizer st = new StringTokenizer(text2," "); 
+		while (st.hasMoreTokens()) 
+		{ 
+	
+		String s2=(st.nextToken()).toString();	
+			if(s2.equals(s))
+			{
+			count++;
+			}
+		}
+		if(count>0)
+		{
+			System.out.println("The common word is "+s);
+		}
+		
+}
+}	
+
+
+}
+class mainstring
+{
+	public static void main (String args[])
+	{
+		MyText obj1=new MyText(" My name is sanket and My branch is CSE ");
+		MyText obj2=new MyText(" My name is shivam and My branch is CSE ");
+		int x= obj1.number_of_words();
+		System.out.println("Number of words is "+x);
+		obj1.frequency_of_words();
+		ProcessText ob1=new ProcessText(obj1,obj2);
+		ob1.find_number_of_unique_word(obj1);
+		ob1.find_number_of_unique_word(obj2);
+		ob1.common_words();
+	}
+}
+
+ 
+
+
